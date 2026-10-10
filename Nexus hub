@@ -1,0 +1,487 @@
+-- =======================================================
+-- NEXUS HUB - Finale Delta Version
+-- =======================================================
+
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local TweenService = game:GetService("TweenService")
+
+local localPlayer = Players.LocalPlayer
+
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "NexusHubUI"
+ScreenGui.Parent = CoreGui
+ScreenGui.ResetOnSpawn = false
+
+-- Hauptfenster
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 300, 0, 320)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -160)
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 10, 25)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = MainFrame
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(160, 50, 255)
+UIStroke.Thickness = 1.5
+UIStroke.Parent = MainFrame
+
+-- Kopfzeile
+local Header = Instance.new("Frame")
+Header.Size = UDim2.new(1, 0, 0, 40)
+Header.BackgroundColor3 = Color3.fromRGB(25, 15, 40)
+Header.BorderSizePixel = 0
+Header.Parent = MainFrame
+
+local HeaderCorner = Instance.new("UICorner")
+HeaderCorner.CornerRadius = UDim.new(0, 10)
+HeaderCorner.Parent = Header
+
+local HeaderMask = Instance.new("Frame")
+HeaderMask.Size = UDim2.new(1, 0, 0, 12)
+HeaderMask.Position = UDim2.new(0, 0, 1, -12)
+HeaderMask.BackgroundColor3 = Color3.fromRGB(25, 15, 40)
+HeaderMask.BorderSizePixel = 0
+HeaderMask.Parent = Header
+
+local HeaderGradient = Instance.new("UIGradient")
+HeaderGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(100, 30, 180)),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(60, 20, 110)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 30, 180))
+}
+HeaderGradient.Rotation = 45
+HeaderGradient.Parent = Header
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(0, 200, 1, 0)
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "NEXUS HUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 15
+Title.Font = Enum.Font.GothamBold
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = Header
+
+local SubTitle = Instance.new("TextLabel")
+SubTitle.Size = UDim2.new(0, 200, 1, 0)
+SubTitle.Position = UDim2.new(0, 12, 0, 10)
+SubTitle.BackgroundTransparency = 1
+SubTitle.Text = "Skript-Loader"
+SubTitle.TextColor3 = Color3.fromRGB(210, 170, 255)
+SubTitle.TextSize = 9
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+SubTitle.Parent = Header
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Position = UDim2.new(1, -32, 0, 7)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(120, 30, 40)
+CloseBtn.Text = "X"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 14
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Parent = Header
+
+local CloseBtnCorner = Instance.new("UICorner")
+CloseBtnCorner.CornerRadius = UDim.new(0, 6)
+CloseBtnCorner.Parent = CloseBtn
+
+-- Tab-Leiste
+local TabBar = Instance.new("Frame")
+TabBar.Size = UDim2.new(1, -20, 0, 30)
+TabBar.Position = UDim2.new(0, 10, 0, 47)
+TabBar.BackgroundTransparency = 1
+TabBar.Parent = MainFrame
+
+local Tab1 = Instance.new("TextButton")
+Tab1.Size = UDim2.new(0, 92, 1, 0)
+Tab1.Position = UDim2.new(0, 0, 0, 0)
+Tab1.BackgroundColor3 = Color3.fromRGB(120, 50, 200)
+Tab1.Text = "Player"
+Tab1.TextColor3 = Color3.fromRGB(255, 255, 255)
+Tab1.TextSize = 10
+Tab1.Font = Enum.Font.GothamBold
+Tab1.Parent = TabBar
+
+local Tab1Corner = Instance.new("UICorner")
+Tab1Corner.CornerRadius = UDim.new(0, 6)
+Tab1Corner.Parent = Tab1
+
+local Tab1Gradient = Instance.new("UIGradient")
+Tab1Gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(150, 60, 230)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(90, 30, 170))
+}
+Tab1Gradient.Rotation = 45
+Tab1Gradient.Parent = Tab1
+
+local Tab2 = Instance.new("TextButton")
+Tab2.Size = UDim2.new(0, 92, 1, 0)
+Tab2.Position = UDim2.new(0, 96, 0, 0)
+Tab2.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+Tab2.Text = "Steal an Egg"
+Tab2.TextColor3 = Color3.fromRGB(180, 180, 200)
+Tab2.TextSize = 10
+Tab2.Font = Enum.Font.GothamBold
+Tab2.Parent = TabBar
+
+local Tab2Corner = Instance.new("UICorner")
+Tab2Corner.CornerRadius = UDim.new(0, 6)
+Tab2Corner.Parent = Tab2
+
+local Tab3 = Instance.new("TextButton")
+Tab3.Size = UDim2.new(0, 92, 1, 0)
+Tab3.Position = UDim2.new(0, 192, 0, 0)
+Tab3.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+Tab3.Text = "Ride a Pet"
+Tab3.TextColor3 = Color3.fromRGB(180, 180, 200)
+Tab3.TextSize = 10
+Tab3.Font = Enum.Font.GothamBold
+Tab3.Parent = TabBar
+
+local Tab3Corner = Instance.new("UICorner")
+Tab3Corner.CornerRadius = UDim.new(0, 6)
+Tab3Corner.Parent = Tab3
+
+-- Seiten-Container
+local PageContainer = Instance.new("Frame")
+PageContainer.Size = UDim2.new(1, -20, 1, -85)
+PageContainer.Position = UDim2.new(0, 10, 0, 82)
+PageContainer.BackgroundTransparency = 1
+PageContainer.Parent = MainFrame
+
+-- Seite 1
+local Page1 = Instance.new("ScrollingFrame")
+Page1.Size = UDim2.new(1, 0, 1, 0)
+Page1.BackgroundTransparency = 1
+Page1.ScrollBarThickness = 2
+Page1.ScrollBarImageColor3 = Color3.fromRGB(160, 50, 255)
+Page1.CanvasSize = UDim2.new(0, 0, 0, 500)
+Page1.Visible = true
+Page1.Parent = PageContainer
+
+local Layout1 = Instance.new("UIListLayout")
+Layout1.Padding = UDim.new(0, 8)
+Layout1.Parent = Page1
+
+-- Seite 2
+local Page2 = Instance.new("ScrollingFrame")
+Page2.Size = UDim2.new(1, 0, 1, 0)
+Page2.BackgroundTransparency = 1
+Page2.ScrollBarThickness = 2
+Page2.ScrollBarImageColor3 = Color3.fromRGB(160, 50, 255)
+Page2.CanvasSize = UDim2.new(0, 0, 0, 500)
+Page2.Visible = false
+Page2.Parent = PageContainer
+
+local Layout2 = Instance.new("UIListLayout")
+Layout2.Padding = UDim.new(0, 8)
+Layout2.Parent = Page2
+
+-- Seite 3
+local Page3 = Instance.new("ScrollingFrame")
+Page3.Size = UDim2.new(1, 0, 1, 0)
+Page3.BackgroundTransparency = 1
+Page3.ScrollBarThickness = 2
+Page3.ScrollBarImageColor3 = Color3.fromRGB(0, 200, 255)
+Page3.CanvasSize = UDim2.new(0, 0, 0, 500)
+Page3.Visible = false
+Page3.Parent = PageContainer
+
+local Layout3 = Instance.new("UIListLayout")
+Layout3.Padding = UDim.new(0, 8)
+Layout3.Parent = Page3
+
+-- Logo
+local OpenIcon = Instance.new("ImageButton")
+OpenIcon.Size = UDim2.new(0, 50, 0, 50)
+OpenIcon.Position = UDim2.new(0, 20, 0.5, -25)
+OpenIcon.BackgroundColor3 = Color3.fromRGB(15, 10, 25)
+OpenIcon.Image = "rbxassetid://107155984992058"
+OpenIcon.ScaleType = Enum.ScaleType.Crop
+OpenIcon.Visible = false
+OpenIcon.Parent = ScreenGui
+
+local OpenIconCorner = Instance.new("UICorner")
+OpenIconCorner.CornerRadius = UDim.new(1, 0)
+OpenIconCorner.Parent = OpenIcon
+
+local OpenIconStroke = Instance.new("UIStroke")
+OpenIconStroke.Color = Color3.fromRGB(160, 50, 255)
+OpenIconStroke.Thickness = 2
+OpenIconStroke.Parent = OpenIcon
+
+OpenIcon.MouseButton1Click:Connect(function()
+    OpenIcon.Visible = false
+    MainFrame.Visible = true
+end)
+
+-- =======================================================
+-- SCHALTER
+-- =======================================================
+local function createToggle(name, callback, parent)
+    local Container = Instance.new("Frame")
+    Container.Size = UDim2.new(1, 0, 0, 42)
+    Container.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+    Container.BorderSizePixel = 0
+    Container.Parent = parent
+
+    local ContainerCorner = Instance.new("UICorner")
+    ContainerCorner.CornerRadius = UDim.new(0, 8)
+    ContainerCorner.Parent = Container
+
+    local NameLabel = Instance.new("TextLabel")
+    NameLabel.Size = UDim2.new(1, -90, 1, 0)
+    NameLabel.Position = UDim2.new(0, 12, 0, 0)
+    NameLabel.BackgroundTransparency = 1
+    NameLabel.Text = name
+    NameLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
+    NameLabel.TextSize = 12
+    NameLabel.Font = Enum.Font.GothamMedium
+    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    NameLabel.Parent = Container
+
+    local ToggleBtn = Instance.new("TextButton")
+    ToggleBtn.Size = UDim2.new(0, 45, 0, 22)
+    ToggleBtn.Position = UDim2.new(1, -55, 0.5, -11)
+    ToggleBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+    ToggleBtn.Text = ""
+    ToggleBtn.AutoButtonColor = false
+    ToggleBtn.Parent = Container
+
+    local ToggleBtnCorner = Instance.new("UICorner")
+    ToggleBtnCorner.CornerRadius = UDim.new(1, 0)
+    ToggleBtnCorner.Parent = ToggleBtn
+
+    local Knob = Instance.new("Frame")
+    Knob.Size = UDim2.new(0, 16, 0, 16)
+    Knob.Position = UDim2.new(0, 3, 0.5, -8)
+    Knob.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+    Knob.BorderSizePixel = 0
+    Knob.Parent = ToggleBtn
+
+    local KnobCorner = Instance.new("UICorner")
+    KnobCorner.CornerRadius = UDim.new(1, 0)
+    KnobCorner.Parent = Knob
+
+    local isOn = false
+
+    ToggleBtn.MouseButton1Click:Connect(function()
+        isOn = not isOn
+        if isOn then
+            TweenService:Create(ToggleBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(80, 200, 80)}):Play()
+            TweenService:Create(Knob, TweenInfo.new(0.2), {Position = UDim2.new(0, 26, 0.5, -8)}):Play()
+        else
+            TweenService:Create(ToggleBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 60, 70)}):Play()
+            TweenService:Create(Knob, TweenInfo.new(0.2), {Position = UDim2.new(0, 3, 0.5, -8)}):Play()
+        end
+        pcall(function() callback(isOn) end)
+    end)
+end
+
+-- =======================================================
+-- FEATURES
+-- =======================================================
+local espEnabled = false
+local infiniteJumpConnection = nil
+local noclipConnection = nil
+local antiAfkConnection = nil
+
+local function updateESP()
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= localPlayer and player.Character then
+            local existing = player.Character:FindFirstChild("NexusESP")
+            if espEnabled then
+                if not existing then
+                    local highlight = Instance.new("Highlight")
+                    highlight.Name = "NexusESP"
+                    highlight.FillColor = Color3.fromRGB(0, 255, 0)
+                    highlight.OutlineColor = Color3.fromRGB(0, 150, 0)
+                    highlight.FillTransparency = 0.5
+                    highlight.Adornee = player.Character
+                    highlight.Parent = player.Character
+                end
+            else
+                if existing then existing:Destroy() end
+            end
+        end
+    end
+end
+
+createToggle("ESP", function(state) espEnabled = state updateESP() end, Page1)
+createToggle("Infinite Jump", function(state)
+    if state then
+        infiniteJumpConnection = UserInputService.JumpRequest:Connect(function()
+            local char = localPlayer.Character
+            if char and char:FindFirstChildOfClass("Humanoid") then
+                char:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+            end
+        end)
+    else
+        if infiniteJumpConnection then infiniteJumpConnection:Disconnect() infiniteJumpConnection = nil end
+    end
+end, Page1)
+createToggle("Speed", function(state)
+    local char = localPlayer.Character
+    if char and char:FindFirstChildOfClass("Humanoid") then
+        char:FindFirstChildOfClass("Humanoid").WalkSpeed = state and 100 or 16
+    end
+end, Page1)
+createToggle("Noclip", function(state)
+    if state then
+        noclipConnection = RunService.Stepped:Connect(function()
+            if localPlayer.Character then
+                for _, part in pairs(localPlayer.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then part.CanCollide = false end
+                end
+            end
+        end)
+    else
+        if noclipConnection then noclipConnection:Disconnect() noclipConnection = nil end
+    end
+end, Page1)
+createToggle("Fullbright", function(state)
+    if state then
+        Lighting.Brightness = 2
+        Lighting.Ambient = Color3.fromRGB(255, 255, 255)
+    else
+        Lighting.Brightness = 1
+        Lighting.Ambient = Color3.fromRGB(70, 70, 70)
+    end
+end, Page1)
+createToggle("Anti AFK", function(state)
+    if state then
+        antiAfkConnection = localPlayer.Idled:Connect(function()
+            local vu = game:GetService("VirtualUser")
+            vu:CaptureController()
+            vu:ClickButton2(Vector2.new())
+        end)
+    else
+        if antiAfkConnection then antiAfkConnection:Disconnect() antiAfkConnection = nil end
+    end
+end, Page1)
+
+-- =======================================================
+-- SCRIPT-BUTTONS
+-- =======================================================
+local function createScriptButton(name, url, parent)
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(1, 0, 0, 42)
+    Btn.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+    Btn.Text = ""
+    Btn.AutoButtonColor = false
+    Btn.Parent = parent
+
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 8)
+    BtnCorner.Parent = Btn
+
+    local BtnGradient = Instance.new("UIGradient")
+    BtnGradient.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(35, 22, 55)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(25, 15, 40))
+    }
+    BtnGradient.Rotation = 45
+    BtnGradient.Parent = Btn
+
+    local NameLabel = Instance.new("TextLabel")
+    NameLabel.Size = UDim2.new(1, -80, 1, 0)
+    NameLabel.Position = UDim2.new(0, 14, 0, 0)
+    NameLabel.BackgroundTransparency = 1
+    NameLabel.Text = name
+    NameLabel.TextColor3 = Color3.fromRGB(230, 230, 240)
+    NameLabel.TextSize = 12
+    NameLabel.Font = Enum.Font.GothamMedium
+    NameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    NameLabel.Parent = Btn
+
+    local LoadLabel = Instance.new("TextLabel")
+    LoadLabel.Size = UDim2.new(0, 60, 1, 0)
+    LoadLabel.Position = UDim2.new(1, -70, 0, 0)
+    LoadLabel.BackgroundTransparency = 1
+    LoadLabel.Text = "▶ Load"
+    LoadLabel.TextColor3 = Color3.fromRGB(180, 100, 255)
+    LoadLabel.TextSize = 11
+    LoadLabel.Font = Enum.Font.GothamBold
+    LoadLabel.TextXAlignment = Enum.TextXAlignment.Right
+    LoadLabel.Parent = Btn
+
+    Btn.MouseButton1Click:Connect(function()
+        LoadLabel.Text = "Lädt..."
+        ScreenGui:Destroy()
+        task.wait(0.1)
+        pcall(function() loadstring(game:HttpGet(url))() end)
+    end)
+end
+
+createScriptButton("Lennon", "https://raw.githubusercontent.com/lennonxscripts/lennonhubv4/refs/heads/main/stealanegg", Page2)
+createScriptButton("Miranda", "https://raw.githubusercontent.com/miirandahub/loader/refs/heads/main/stealeggies", Page2)
+createScriptButton("Miranda AFK", "https://raw.githubusercontent.com/miirandahub/loader/refs/heads/main/afkk", Page2)
+createScriptButton("Anti Hit", "https://raw.githubusercontent.com/CanZero11/stealanegg/main/Virex%20anti%20hit.lua", Page2)
+createScriptButton("Grafik", "https://raw.githubusercontent.com/robloxscripts2026/simple-shader/refs/heads/main/lua", Page2)
+createScriptButton("Tokyo Hub All", "https://api.obscuravm.com/scripts/1328761889635883177", Page2)
+
+createScriptButton("Tokyo Ride a Pet", "https://flowauth.net/v1/loaders/b792ba22a029da57e3e0306f258ae518.lua", Page3)
+
+Layout1:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    Page1.CanvasSize = UDim2.new(0, 0, 0, Layout1.AbsoluteContentSize.Y + 20)
+end)
+Layout2:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    Page2.CanvasSize = UDim2.new(0, 0, 0, Layout2.AbsoluteContentSize.Y + 20)
+end)
+Layout3:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    Page3.CanvasSize = UDim2.new(0, 0, 0, Layout3.AbsoluteContentSize.Y + 20)
+end)
+
+-- =======================================================
+-- TAB-WECHSEL
+-- =======================================================
+local function switchTab(index)
+    Tab1.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+    Tab1.TextColor3 = Color3.fromRGB(180, 180, 200)
+    Tab2.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+    Tab2.TextColor3 = Color3.fromRGB(180, 180, 200)
+    Tab3.BackgroundColor3 = Color3.fromRGB(30, 20, 45)
+    Tab3.TextColor3 = Color3.fromRGB(180, 180, 200)
+    Page1.Visible = false
+    Page2.Visible = false
+    Page3.Visible = false
+
+    if index == 1 then
+        Tab1.BackgroundColor3 = Color3.fromRGB(120, 50, 200)
+        Tab1.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Page1.Visible = true
+    elseif index == 2 then
+        Tab2.BackgroundColor3 = Color3.fromRGB(120, 50, 200)
+        Tab2.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Page2.Visible = true
+    elseif index == 3 then
+        Tab3.BackgroundColor3 = Color3.fromRGB(120, 50, 200)
+        Tab3.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Page3.Visible = true
+    end
+end
+
+Tab1.MouseButton1Click:Connect(function() switchTab(1) end)
+Tab2.MouseButton1Click:Connect(function() switchTab(2) end)
+Tab3.MouseButton1Click:Connect(function() switchTab(3) end)
+
+CloseBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    OpenIcon.Visible = true
+end)
+
+print("Nexus Hub gestartet!")
